@@ -36,6 +36,7 @@ public class Models {
 		case QUANTIL_ENSEMBLE: return getQuantilEnsemble(cp, params);
 		case MULTILABEL_CHAIN_ENSEMBLE: return getMultilabelChainEnsemble(cp, params);
 		case SPARSE_MULTILABEL_CHAIN_ENSEMBLE: return getSparseMultilabelChainEnsemble(cp, params);
+		case SPARSE_BATCH_ENSEMBLE: return getSparseBatchEnsemble(cp, params);
 		default: throw new RDTException("Model does not exist in class Models for ModelType " + type.name() + "!");
 		}
 	}
@@ -52,6 +53,7 @@ public class Models {
 		case QUANTIL_ENSEMBLE: return getQuantilEnsembleParameterNames();
 		case MULTILABEL_CHAIN_ENSEMBLE: return getMultilabelChainEnsembleParameterNames();
 		case SPARSE_MULTILABEL_CHAIN_ENSEMBLE: return getSparseMultilabelChainEnsembleParameterNames();
+		case SPARSE_BATCH_ENSEMBLE: return getSparseBatchEnsembleParameterNames();
 		default: throw new RDTException("Model-parameter-names does not exist in class Models for ModelType " + type.name() + "!");
 		}
 	}
@@ -141,6 +143,24 @@ public class Models {
 	}
 	private static String[] getSparseMultilabelChainEnsembleParameterNames(){
 		return new String[]{"numTrees", "maxDeep", "maxS", "randomSeed", "percentageLabels", "percentageActiveLabels", "numChainPredict", "predictType", "chainType", "numAttrs"};
+	}
+	
+	
+	/*
+	 * SparseBatchEnsemble
+	 */
+	private static Model getSparseBatchEnsemble(CollectorPreferences cp, Object[] params) throws RDTException {
+		if(params.length != 4){
+			throw new RDTException("Wrong parameters for model BatchEnsemble!");
+		}
+		int numTrees = (int) params[0];
+		int maxDeep = (int) params[1];
+		int maxS = (int) params[2];
+		long randomSeed = (long) params[3];
+		return new BatchEnsemble(cp, numTrees, maxDeep, maxS, randomSeed);
+	}
+	private static String[] getSparseBatchEnsembleParameterNames(){
+		return new String[]{"numTrees", "maxDeep", "maxS", "randomSeed"};
 	}
 	
 	
