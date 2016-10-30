@@ -40,15 +40,16 @@ public class SparseBatchSplitter implements Splitter{
 	 * @param random the random number generator to generate some random numbers
 	 * @param freeAttrs the attributes which can be selected as the attribute for this splitter
 	 * @param usedAttrs the attribute-ids which have been used in the tree before
+	 * @param noSplitAttr the number of attributes used for splitting the trees 
 	 */
-	public SparseBatchSplitter(List<Instance> ions, Random random, RDTAttribute[] freeAttrs, Set<Integer> usedAttrs){
+	public SparseBatchSplitter(List<Instance> ions, Random random, RDTAttribute[] freeAttrs, Set<Integer> usedAttrs, int noSplitAttrs){
 		//TODO: Modify according new method
-		int selectedId = determineAttribute(ions, random, freeAttrs, usedAttrs, 0);
+		List<Integer> selectedIds = determineAttributes(ions, random, freeAttrs, usedAttrs, noSplitAttrs, 0);
 		
-		if(selectedId == -1){
+		if(selectedIds == null){
 			this.usedAttrIds = new int[0];
 		}else{
-			this.usedAttrIds = new int[]{selectedId};
+			this.usedAttrIds = (int[]) selectedIds.toArray();
 		}
 	}
 	
@@ -63,7 +64,7 @@ public class SparseBatchSplitter implements Splitter{
 	 * @param round the current round of the recursive call
 	 * @return the attribute-id of the attribute which will be tested in this splitter or -1 if no attribute was found
 	 */
-	private List<Integer> determineAttribute(List<Instance> ions, Random random, RDTAttribute[] attr, Set<Integer> usedAttrs, int no ,int round){
+	private List<Integer> determineAttributes(List<Instance> ions, Random random, RDTAttribute[] attr, Set<Integer> usedAttrs, int no ,int round){
 		int count					= 0;
 		Instance inst 				= null; //selected instance
 		List<Integer> eligibleAttr	= new LinkedList<Integer>(); //list of eligible attr in that instance
@@ -92,7 +93,7 @@ public class SparseBatchSplitter implements Splitter{
 		//if no attr were found, repeat 		
 		if(selectedAttr.size() == 0){
 			round++;
-			return determineAttribute(ions, random, attr, usedAttrs, no ,round);
+			return determineAttributes(ions, random, attr, usedAttrs, no ,round);
 		}
 		
 		return selectedAttr;
