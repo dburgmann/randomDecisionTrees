@@ -42,6 +42,7 @@ public class SparseBatchSplitter implements Splitter{
 	 * @param usedAttrs the attribute-ids which have been used in the tree before
 	 */
 	public SparseBatchSplitter(List<Instance> ions, Random random, RDTAttribute[] freeAttrs, Set<Integer> usedAttrs){
+		//TODO: Modify according new method
 		int selectedId = determineAttribute(ions, random, freeAttrs, usedAttrs, 0);
 		
 		if(selectedId == -1){
@@ -57,33 +58,44 @@ public class SparseBatchSplitter implements Splitter{
 	 * 
 	 * @param ions the instance which can be used to determine the attribute
 	 * @param random the random number generator to generate some random numbers
-	 * @param attrs the attributes which can be selected
+	 * @param attr the attributes which can be selected
 	 * @param usedAttrs the attribute-ids which have been used in the tree before
 	 * @param round the current round of the recursive call
 	 * @return the attribute-id of the attribute which will be tested in this splitter or -1 if no attribute was found
 	 */
-	private int determineAttribute(List<Instance> ions, Random random, RDTAttribute[] attrs, Set<Integer> usedAttrs, int round){
-		//TODO: Modify to support multiple attributes per node
-		if(ions.size() < round){
-			return -1;
-		}
+	private List<Integer> determineAttribute(List<Instance> ions, Random random, RDTAttribute[] attr, Set<Integer> usedAttrs, int no ,int round){
+		int count					= 0;
+		Instance inst 				= null; //selected instance
+		List<Integer> eligibleAttr	= new LinkedList<Integer>(); //list of eligible attr in that instance
+		List<Integer> selectedAttr 	= new LinkedList<Integer>(); //result list
+				
+		//select random instance
+		inst = ions.get(random.nextInt(ions.size()));
 		
-		Instance inst = ions.get(random.nextInt(ions.size()));
-		
-		List<Integer> selectedAttr = new LinkedList<Integer>();
-
-		for(int i=0; i<attrs.length; i++){
-			if(inst.value(attrs[i].getAttributeId()) == 1 && !usedAttrs.contains(attrs[i].getAttributeId())){
-				selectedAttr.add(attrs[i].getAttributeId());
+		//determine eligible attributes
+		for(int selected=0; selected < attr.length; selected++){
+			if(
+				inst.value(attr[selected].getAttributeId()) == 1 && //check if attr is set in instance
+				!usedAttrs.contains(attr[selected].getAttributeId())//check if attr was used before
+			){
+				eligibleAttr.add(attr[selected].getAttributeId());  //add attr to selected attr if eligible
 			}
 		}
 		
-		if(selectedAttr.size() == 0){
-			round++;
-			return determineAttribute(ions, random, attrs, usedAttrs, round);
+		
+		//select attributes
+		while(count < no && selectedAttr.size() < no && count < eligibleAttr.size()){
+			selectedAttr.add(eligibleAttr.get(random.nextInt(eligibleAttr.size())));
 		}
 		
-		return selectedAttr.get(random.nextInt(selectedAttr.size()));
+		
+		//if no attr were found, repeat 		
+		if(selectedAttr.size() == 0){
+			round++;
+			return determineAttribute(ions, random, attr, usedAttrs, no ,round);
+		}
+		
+		return selectedAttr;
 	}
 	
 	@Override
