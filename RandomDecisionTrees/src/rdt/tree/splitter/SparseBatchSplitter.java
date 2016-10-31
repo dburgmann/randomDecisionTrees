@@ -1,5 +1,6 @@
 package rdt.tree.splitter;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -45,11 +46,10 @@ public class SparseBatchSplitter implements Splitter{
 	public SparseBatchSplitter(List<Instance> ions, Random random, RDTAttribute[] freeAttrs, Set<Integer> usedAttrs, int noSplitAttrs){
 		//TODO: Modify according new method
 		List<Integer> selectedIds = determineAttributes(ions, random, freeAttrs, usedAttrs, noSplitAttrs, 0);
+		this.usedAttrIds = new int[selectedIds.size()];
 		
-		if(selectedIds == null){
-			this.usedAttrIds = new int[0];
-		}else{
-			this.usedAttrIds = (int[]) selectedIds.toArray();
+		for (int i = 0; i < selectedIds.size(); i++) {
+			this.usedAttrIds[i] = selectedIds.get(i);
 		}
 	}
 	

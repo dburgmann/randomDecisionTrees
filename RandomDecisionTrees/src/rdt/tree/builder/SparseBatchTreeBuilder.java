@@ -13,6 +13,7 @@ import weka.core.Instance;
  * @author DB
  */
 public class SparseBatchTreeBuilder extends BatchTreeBuilder {
+	int noSplitAttrs = 1;
 	
 	
 	/**
@@ -25,37 +26,18 @@ public class SparseBatchTreeBuilder extends BatchTreeBuilder {
 	 * @param maxS the minimum number of instances to create an inner node
 	 * @param randomSeed a seed to initialize the random number generator
 	 */
-	public SparseBatchTreeBuilder(CollectorPreferences cp, int maxDeep, int maxS, long randomSeed) throws RDTException{
+	public SparseBatchTreeBuilder(CollectorPreferences cp, int maxDeep, int maxS, long randomSeed, int noSplitAttrs) throws RDTException{
 		super(cp, maxDeep, maxS, randomSeed);
+		this.noSplitAttrs = noSplitAttrs;
 	}
 	
-	protected Splitter createSplitter(List<Instance> ions) throws RDTException{
+	protected Splitter createSplitter(List<Instance> ions, int noSplitAttrs) throws RDTException{
 		//helpSet = set of attributes already used in path to node
 		//freeAttr = set of attributes available for selection
 		
-		Splitter splitter = new SparseBatchSplitter(ions, random, freeAttrs, helpSet);
-		//TODO: determine when null has to be returned (no attr chosen for splitting?!!?)
-		/*
-		int count = 0;
-		do{
-			RDTAttribute attr = getRandomAttribute(helpSet, freeAttrs);
-			
-			if(attr == null){
-				return null;
-			}
-			
-			if(attr.isNominal()){
-				splitter = createNominalSplitter(attr, ions);
-			}else if(attr.isNumeric()){
-				splitter = createNumericSplitter(attr, ions);
-			}else{
-				throw new RDTException("Unknown attribute-type!");
-			}
-			
-			count++;
-		
-		}while(splitter == null && count < attributes.length);
-		*/
+		Splitter splitter = new SparseBatchSplitter(ions, random, freeAttrs, helpSet, noSplitAttrs);
+		//TODO: determine if null has to be returned in some cases (no attr chosen for splitting?!!?)
+	
 		return splitter;
 	}
 }

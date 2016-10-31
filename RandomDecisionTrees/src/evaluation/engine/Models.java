@@ -8,6 +8,7 @@ import rdt.model.MultilabelChainEnsemble;
 import rdt.model.MultilabelChainEnsemble.ChainType;
 import rdt.model.MultilabelChainEnsemble.PredictType;
 import rdt.model.QuantilEnsemble;
+import rdt.model.SparseBatchEnsemble;
 import rdt.model.SparseMultilabelChainEnsemble;
 import rdt.tree.collector.CollectorPreferences;
 
@@ -157,10 +158,11 @@ public class Models {
 		int maxDeep = (int) params[1];
 		int maxS = (int) params[2];
 		long randomSeed = (long) params[3];
-		return new BatchEnsemble(cp, numTrees, maxDeep, maxS, randomSeed);
+		int noSplitAttrs = (int) params[4];
+		return new SparseBatchEnsemble(cp, numTrees, maxDeep, maxS, randomSeed, noSplitAttrs);
 	}
 	private static String[] getSparseBatchEnsembleParameterNames(){
-		return new String[]{"numTrees", "maxDeep", "maxS", "randomSeed"};
+		return new String[]{"numTrees", "maxDeep", "maxS", "randomSeed", "noSplitAttrs"};
 	}
 	
 	

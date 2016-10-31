@@ -21,10 +21,10 @@ public class SparseBatchExperiment extends CompareExperiment {
 			//Model 1
 			{
 				new Integer[]{1,2,3,4,5},		//Trees
-				new Integer[]{1,3,5,7},				//maxDeep
+				new Integer[]{1,3,5,7},			//maxDeep
 				new Integer[]{5},				//maxS
 				new Long[]{(long) 1},			//randomSeed
-				
+				new Integer[]{3}				//noSplitAttrs
 			}
 		};
 	}
