@@ -33,7 +33,7 @@ public class ExperimentEngine {
 	public static void main(String[] args) throws Exception {
 
 		//For testing 
-		args = new String[]{"test"};
+		args = new String[]{"sparseBatch"};
 		
 		
 		

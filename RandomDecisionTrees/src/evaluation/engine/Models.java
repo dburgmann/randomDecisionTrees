@@ -151,7 +151,7 @@ public class Models {
 	 * SparseBatchEnsemble
 	 */
 	private static Model getSparseBatchEnsemble(CollectorPreferences cp, Object[] params) throws RDTException {
-		if(params.length != 4){
+		if(params.length != 5){
 			throw new RDTException("Wrong parameters for model BatchEnsemble!");
 		}
 		int numTrees = (int) params[0];

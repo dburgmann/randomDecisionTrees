@@ -20,11 +20,11 @@ public class SparseBatchExperiment extends CompareExperiment {
 		return new Object[][][]{
 			//Model 1
 			{
-				new Integer[]{1,2,3,4,5},		//Trees
-				new Integer[]{1,3,5,7},			//maxDeep
-				new Integer[]{5},				//maxS
-				new Long[]{(long) 1},			//randomSeed
-				new Integer[]{3}				//noSplitAttrs
+				new Integer[]{5},		//Trees
+				new Integer[]{10},		//maxDeep
+				new Integer[]{5},		//maxS
+				new Long[]{(long) 1},	//randomSeed
+				new Integer[]{1,5}	//noSplitAttrs
 			}
 		};
 	}
@@ -32,7 +32,7 @@ public class SparseBatchExperiment extends CompareExperiment {
 	@Override
 	public DatasetType[] getDatasets() {
 		return new DatasetType[]{
-				DatasetType.MULTILABEL_SCENE
+				DatasetType.SPARSE_N20
 		};
 	}
 

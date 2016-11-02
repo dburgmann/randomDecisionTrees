@@ -101,9 +101,10 @@ public class SparseBatchSplitter implements Splitter{
 	
 	@Override
 	public int determineChild(Instance inst) throws RDTException {
-		//TODO: modify to use multiple Values / OR
-		if(inst.value(usedAttrIds[0]) == 1){
-			return 1;
+		for(int i= 0; i < usedAttrIds.length; i++){
+			if(inst.value(usedAttrIds[i]) == 1){
+				return 1;
+			}
 		}
 		return 0;
 		

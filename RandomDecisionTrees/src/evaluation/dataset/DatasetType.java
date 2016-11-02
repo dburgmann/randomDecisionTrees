@@ -77,4 +77,8 @@ public enum DatasetType {
 	MULTILABEL_BIBTEX_PCA,
 	//MULTILABEL_DELICIOUS_PCA,
 	
+	//Sparse
+	SPARSE_N20,
+	SPARSE_RCV1,
+	
 }

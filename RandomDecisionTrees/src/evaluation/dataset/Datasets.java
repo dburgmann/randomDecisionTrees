@@ -55,6 +55,8 @@ import evaluation.dataset.multilabel.pca.Multilabel_Corel5k_PCA;
 import evaluation.dataset.multilabel.pca.Multilabel_Bibtex_PCA;
 import evaluation.dataset.multilabel.pca.Multilabel_Enron_PCA;
 import evaluation.dataset.multilabel.pca.Multilabel_Medical_PCA;
+import evaluation.dataset.sparse.Sparse_N20;
+import evaluation.dataset.sparse.Sparse_Rcv1;
 import rdt.essentials.RDTException;
 
 /**
@@ -155,6 +157,8 @@ public class Datasets {
 		datasets.put(DatasetType.MULTILABEL_COREL5K_PCA, new Multilabel_Corel5k_PCA());
 		datasets.put(DatasetType.MULTILABEL_ENRON_PCA, new Multilabel_Enron_PCA());
 		datasets.put(DatasetType.MULTILABEL_MEDICAL_PCA, new Multilabel_Medical_PCA());
+		datasets.put(DatasetType.SPARSE_N20, new Sparse_N20());
+		datasets.put(DatasetType.SPARSE_RCV1, new Sparse_Rcv1());
 		
 	}
 }
