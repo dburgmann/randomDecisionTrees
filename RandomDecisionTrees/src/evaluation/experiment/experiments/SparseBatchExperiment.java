@@ -20,8 +20,8 @@ public class SparseBatchExperiment extends CompareExperiment {
 		return new Object[][][]{
 			//Model 1
 			{
-				new Integer[]{5},		//Trees
-				new Integer[]{10},		//maxDeep
+				new Integer[]{300},		//Trees
+				new Integer[]{30},		//maxDeep
 				new Integer[]{5},		//maxS
 				new Long[]{(long) 1},	//randomSeed
 				new Integer[]{1,5}	//noSplitAttrs

@@ -10,7 +10,9 @@ import evaluation.experiment.Experiment;
 import evaluation.experiment.experiments.Batch_Optimization_Test;
 import evaluation.experiment.experiments.SparseBatchExperiment;
 import evaluation.experiment.experiments.SparseMultilabelChainExperiment;
+import evaluation.experiment.experiments.SparseTestOptimization;
 import evaluation.experiment.experiments.TestExperiment;
+import evaluation.experiment.experiments.TestOptimization;
 
 /**
  * This class represents the main-class to start an experiment. You can simply add your newly
@@ -31,26 +33,18 @@ public class ExperimentEngine {
 
 	
 	public static void main(String[] args) throws Exception {
-
+		System.out.println("Start");
 		//For testing 
-		args = new String[]{"sparseBatch"};
-		
-		
+		args = new String[]{"sparse_batch_opt"};
 		
 		List<Experiment> experiments = new LinkedList<Experiment>();
-		
 		if(args.length == 0){
 			System.out.println("No parameters!");
 			System.exit(0);
 		}
 		
-
 		
-		
-		
-		
-		switch(args[0]){
-		
+		switch(args[0]){		
 		//example for experiment
 		case "test":
 			TestExperiment test = new TestExperiment();
@@ -65,6 +59,9 @@ public class ExperimentEngine {
 		case "sparseBatch":
 			experiments.add(new SparseBatchExperiment());
 			break;
+		case "sparse_batch_opt":
+			experiments.add(new TestOptimization());
+			break;
 
 		default:
 			System.out.println("Unknown parameter!");
@@ -74,7 +71,6 @@ public class ExperimentEngine {
 		
 		//For each added experiment
 		for(Experiment exp : experiments){
-		
 			//Now get the datasets which are given in the args with index >= 1
 			//If no more arguments are given all datasets of the experiments will be evaluated
 			DatasetType[] datasetTypes = exp.getDatasets();
@@ -93,5 +89,6 @@ public class ExperimentEngine {
 				exp.runExperiment(dataset);
 			}
 		}
+		System.out.println("Finished");
 	}
 }
