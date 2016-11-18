@@ -15,8 +15,8 @@ public class Batch_Optimization_Test extends Optimization{
 	@Override
 	protected Object[][] getParameters() {
 		return new Object[][]{
-				new Integer[]{10,50,100,200},		//Trees
-				new Integer[]{10,20,30},		//maxDeep
+				new Integer[]{50},		//Trees
+				new Integer[]{10},		//maxDeep
 				new Integer[]{5},		//maxS
 				new Long[]{(long) 1},	//randomSeed 
 		};
@@ -25,7 +25,7 @@ public class Batch_Optimization_Test extends Optimization{
 	@Override
 	public DatasetType[] getDatasets() {
 		return new DatasetType[]{
-				DatasetType.MULTILABEL_SCENE,
+				DatasetType.SPARSE_N20,
 		};
 	}
 
