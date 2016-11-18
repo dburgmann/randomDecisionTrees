@@ -275,7 +275,7 @@ public abstract class CompareExperiment implements Experiment{
 		//TODO Here we have the assumption that only one collector has been used in in the model!!!
 		String[] measureNames = ers[0].getMeasureNames()[0];
 		StringBuilder sb = new StringBuilder();
-		sb.append("sep:, \n");
+		sb.append("sep=, \n");
 		sb.append("PARAM:").append(paramNames[focus]).append(",");
 		
 		//print header

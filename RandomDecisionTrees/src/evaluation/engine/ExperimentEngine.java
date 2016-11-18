@@ -10,9 +10,8 @@ import evaluation.experiment.Experiment;
 import evaluation.experiment.experiments.Batch_Optimization_Test;
 import evaluation.experiment.experiments.SparseBatchExperiment;
 import evaluation.experiment.experiments.SparseMultilabelChainExperiment;
-import evaluation.experiment.experiments.SparseTestOptimization;
+import evaluation.experiment.experiments.SparseBatchOptimization;
 import evaluation.experiment.experiments.TestExperiment;
-import evaluation.experiment.experiments.TestOptimization;
 
 /**
  * This class represents the main-class to start an experiment. You can simply add your newly
@@ -60,7 +59,7 @@ public class ExperimentEngine {
 			experiments.add(new SparseBatchExperiment());
 			break;
 		case "sparse_batch_opt":
-			experiments.add(new TestOptimization());
+			experiments.add(new SparseBatchOptimization());
 			break;
 
 		default:
