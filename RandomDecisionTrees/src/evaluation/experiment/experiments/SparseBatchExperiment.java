@@ -24,7 +24,7 @@ public class SparseBatchExperiment extends CompareExperiment {
 				new Integer[]{30},		//maxDeep
 				new Integer[]{5},		//maxS
 				new Long[]{(long) 1},	//randomSeed
-				new Integer[]{1,5}	//noSplitAttrs
+				new Integer[]{5}	//noSplitAttrs
 			}
 		};
 	}
@@ -32,7 +32,8 @@ public class SparseBatchExperiment extends CompareExperiment {
 	@Override
 	public DatasetType[] getDatasets() {
 		return new DatasetType[]{
-				DatasetType.SPARSE_N20
+				DatasetType.SPARSE_N20,
+				DatasetType.SPARSE_RCV1
 		};
 	}
 

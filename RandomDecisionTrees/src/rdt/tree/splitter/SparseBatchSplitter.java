@@ -44,14 +44,20 @@ public class SparseBatchSplitter implements Splitter{
 	 * @param noSplitAttr the number of attributes used for splitting the trees 
 	 */
 	public SparseBatchSplitter(List<Instance> ions, Random random, RDTAttribute[] freeAttrs, Set<Integer> usedAttrs, int noSplitAttrs){
-		//TODO: Modify according new method
-		List<Integer> selectedIds = determineAttributes(ions, random, freeAttrs, usedAttrs, noSplitAttrs, 0);
+		List<Integer> selectedIds = determineAttributes(ions, random, freeAttrs, usedAttrs, noSplitAttrs);
+			
 		this.usedAttrIds = new int[selectedIds.size()];
 		
 		for (int i = 0; i < selectedIds.size(); i++) {
 			this.usedAttrIds[i] = selectedIds.get(i);
 		}
 	}
+	
+	private List<Integer> determineAttributes(List<Instance> ions, Random random, RDTAttribute[] attr, Set<Integer> usedAttrs, int no){
+		return determineAttributes(ions, random, attr, usedAttrs, no, true);
+	}
+	
+	
 	
 	/**
 	 * Tries to find an attribute for the splitter recursively. This method returns -1 if no proper attribute can be
@@ -61,43 +67,76 @@ public class SparseBatchSplitter implements Splitter{
 	 * @param random the random number generator to generate some random numbers
 	 * @param attr the attributes which can be selected
 	 * @param usedAttrs the attribute-ids which have been used in the tree before
-	 * @param round the current round of the recursive call
+	 * @param no number of attributes used in the splitter for decision
+	 * @paran strict determines if no param should be enforced strictly or if less attributes are allowed if no instance fullfills the requirement
 	 * @return the attribute-id of the attribute which will be tested in this splitter or -1 if no attribute was found
 	 */
-	private List<Integer> determineAttributes(List<Instance> ions, Random random, RDTAttribute[] attr, Set<Integer> usedAttrs, int no ,int round){
-		int count					= 0;
-		Instance inst 				= null; //selected instance
-		List<Integer> eligibleAttr	= new LinkedList<Integer>(); //list of eligible attr in that instance
-		List<Integer> selectedAttr 	= new LinkedList<Integer>(); //result list
+	private List<Integer> determineAttributes(List<Instance> ions, Random random, RDTAttribute[] attr, Set<Integer> usedAttrs, int no, boolean strict){
+		
+		Instance instance 			= null; //selected instance
+		List<Integer> eligibleAttrs	= new LinkedList<Integer>(); //list of eligible attr in that instance
+		List<Integer> selectedAttrs = new LinkedList<Integer>(); //result list
 				
-		//select random instance
-		inst = ions.get(random.nextInt(ions.size()));
+		if(ions.isEmpty()) return selectedAttrs;	//recursion anchor
+		
+		//check if no param should be enforced strictly
+		if(strict){
+			List<Instance> nonEmptyIons = new LinkedList<Instance>();
+			
+			//determine a random instance that has enough usable attributes
+			while(eligibleAttrs.size() < no && !ions.isEmpty()){
+				instance = ions.remove(random.nextInt(ions.size())); //select random instance & remove it from ions to prevent usage of one instance multiple times
+				eligibleAttrs = getEligibleAttributesOfInstance(instance,attr, usedAttrs);
+				
+				//keep track of those instances that have attributes but not enough
+				if(!eligibleAttrs.isEmpty()){	
+					nonEmptyIons.add(instance);
+				}
+			}
+			
+			//check if strict mode found eligible Attributes
+			if(eligibleAttrs.size() < no) return determineAttributes(nonEmptyIons, random, attr, usedAttrs, no, false); //if strict mode did not find enough attr try non strict variant.
+			
+		}else{
+			//determine a random instance that has usable attributes
+			while(eligibleAttrs.isEmpty() && !ions.isEmpty()){
+				instance = ions.remove(random.nextInt(ions.size())); //select random instance & remove it from ions to prevent usage of one instance multiple times
+				eligibleAttrs = getEligibleAttributesOfInstance(instance,attr, usedAttrs);				
+			}
+			
+			if(eligibleAttrs.isEmpty()){
+				return selectedAttrs;	//if even non strict mode did not find enough attr then there are none left
+			}
+		}		
+		
+		//select attributes
+		int count = 0;
+		int attribute = 0;
+		while(count < no && count < eligibleAttrs.size()){
+			attribute = eligibleAttrs.remove(random.nextInt(eligibleAttrs.size()));  //select a random attribute from all eligible attributes & remove it from eleigible list
+			selectedAttrs.add(attribute);											 //add selected attribute to resultlist
+			count++;
+		}
+				
+		usedAttrs.addAll(selectedAttrs);
+		return selectedAttrs;
+	}
+	
+	private List<Integer> getEligibleAttributesOfInstance(Instance instance, RDTAttribute[] attr, Set<Integer> usedAttrs){
+		List<Integer> eligibleAttrs	= new LinkedList<Integer>(); //list of eligible attr in that instance
 		
 		//determine eligible attributes
 		for(int selected=0; selected < attr.length; selected++){
 			if(
-				inst.value(attr[selected].getAttributeId()) == 1 && //check if attr is set in instance
+				instance.value(attr[selected].getAttributeId()) == 1 && //check if attr is set in instance
 				!usedAttrs.contains(attr[selected].getAttributeId())//check if attr was used before
 			){
-				eligibleAttr.add(attr[selected].getAttributeId());  //add attr to selected attr if eligible
+				eligibleAttrs.add(attr[selected].getAttributeId());  //add attr to selected attr if eligible
 			}
 		}
-		
-		
-		//select attributes
-		while(count < no && selectedAttr.size() < no && count < eligibleAttr.size()){
-			selectedAttr.add(eligibleAttr.get(random.nextInt(eligibleAttr.size())));
-		}
-		
-		
-		//if no attr were found, repeat 		
-		if(selectedAttr.size() == 0){
-			round++;
-			return determineAttributes(ions, random, attr, usedAttrs, no ,round);
-		}
-		
-		return selectedAttr;
+		return eligibleAttrs;
 	}
+	
 	
 	@Override
 	public int determineChild(Instance inst) throws RDTException {

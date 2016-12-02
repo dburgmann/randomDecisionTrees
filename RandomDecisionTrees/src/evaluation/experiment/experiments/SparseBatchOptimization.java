@@ -15,8 +15,8 @@ public class SparseBatchOptimization extends Optimization{
 	@Override
 	protected Object[][] getParameters() {
 		return new Object[][]{
-				new Integer[]{50},		//Trees
-				new Integer[]{10},		//maxDeep
+				new Integer[]{300},		//Trees
+				new Integer[]{30},		//maxDeep
 				new Integer[]{5},		//maxS
 				new Long[]{(long) 1},	//randomSeed
 				new Integer[]{1}	//noSplitAttrs

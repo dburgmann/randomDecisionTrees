@@ -34,7 +34,7 @@ public class ExperimentEngine {
 	public static void main(String[] args) throws Exception {
 		System.out.println("Start");
 		//For testing 
-		args = new String[]{"sparse_batch_opt"};
+		args = new String[]{"sparseBatch"};
 		
 		List<Experiment> experiments = new LinkedList<Experiment>();
 		if(args.length == 0){

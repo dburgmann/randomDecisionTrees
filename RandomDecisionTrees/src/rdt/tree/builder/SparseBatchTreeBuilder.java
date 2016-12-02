@@ -34,13 +34,10 @@ public class SparseBatchTreeBuilder extends BatchTreeBuilder {
 	}
 	
 	protected Splitter createSplitter(List<Instance> ions, int noSplitAttrs) throws RDTException{
-		//helpSet = set of attributes already used in path to node
-		//freeAttr = set of attributes available for selection
-		
 		Splitter splitter = new SparseBatchSplitter(ions, random, freeAttrs, helpSet, noSplitAttrs);
-		//TODO: determine if null has to be returned in some cases (no attr chosen for splitting?!!?)
-	
-		return splitter;
+		
+		if(splitter.getUsedAttributeIds().length == 0) 	return null;
+		else 											return splitter;
 	}
 	
 	
