@@ -9,7 +9,7 @@ public class SparseBatchOptimization extends Optimization{
 
 	@Override
 	protected ModelType getModelType() {
-		return ModelType.SPARSE_BATCH_ENSEMBLE;
+		return ModelType.STRICT_SPARSE_BATCH_ENSEMBLE;
 	}
 
 	@Override

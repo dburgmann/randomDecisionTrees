@@ -8,7 +8,8 @@ import evaluation.dataset.DatasetType;
 import evaluation.dataset.Datasets;
 import evaluation.experiment.Experiment;
 import evaluation.experiment.experiments.Batch_Optimization_Test;
-import evaluation.experiment.experiments.SparseBatchExperiment;
+import evaluation.experiment.experiments.LooseSparseBatchExperiment;
+import evaluation.experiment.experiments.StrictSparseBatchExperiment;
 import evaluation.experiment.experiments.SparseMultilabelChainExperiment;
 import evaluation.experiment.experiments.SparseBatchOptimization;
 import evaluation.experiment.experiments.TestExperiment;
@@ -56,7 +57,8 @@ public class ExperimentEngine {
 			experiments.add(new Batch_Optimization_Test());
 			break;
 		case "sparseBatch":
-			experiments.add(new SparseBatchExperiment());
+			experiments.add(new StrictSparseBatchExperiment());
+			experiments.add(new LooseSparseBatchExperiment());
 			break;
 		case "sparse_batch_opt":
 			experiments.add(new SparseBatchOptimization());

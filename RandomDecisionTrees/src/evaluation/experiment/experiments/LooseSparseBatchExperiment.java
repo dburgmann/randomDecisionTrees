@@ -6,12 +6,12 @@ import evaluation.experiment.CompareExperiment;
 import evaluation.experiment.ExperimentType;
 import rdt.model.ModelType;
 
-public class SparseBatchExperiment extends CompareExperiment {
+public class LooseSparseBatchExperiment extends CompareExperiment {
 	
 	@Override
 	protected ModelType[] getModelTypes() {
 		return new ModelType[]{
-				ModelType.SPARSE_BATCH_ENSEMBLE
+				ModelType.LOOSE_SPARSE_BATCH_ENSEMBLE
 		};
 	}
 
@@ -24,7 +24,7 @@ public class SparseBatchExperiment extends CompareExperiment {
 				new Integer[]{30},		//maxDeep
 				new Integer[]{5},		//maxS
 				new Long[]{(long) 1},	//randomSeed
-				new Integer[]{5}	//noSplitAttrs
+				new Integer[]{1, 5, 10, 100}	//noSplitAttrs
 			}
 		};
 	}
