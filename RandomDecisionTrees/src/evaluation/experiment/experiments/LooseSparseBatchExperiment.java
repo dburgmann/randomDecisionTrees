@@ -32,7 +32,6 @@ public class LooseSparseBatchExperiment extends CompareExperiment {
 	@Override
 	public DatasetType[] getDatasets() {
 		return new DatasetType[]{
-				DatasetType.SPARSE_N20,
 				DatasetType.SPARSE_RCV1
 		};
 	}

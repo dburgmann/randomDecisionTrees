@@ -1,0 +1,25 @@
+READ ME FRAMEWORK-ERWEITERUNG: sparseRDT
+
+hinzugefügte Klassen:
+rdt.tree.builder.SparseBatchTreeBuilder		=> Erstellt den Baum
+rdt.tree.splitter.SparseBatchSplitter		=> Erstellt Entscheidungskriterium in den Knoten
+
+rdt.model.LooseSparseBatchEnsemble			=> Erstellt Bäume mit TreeBuilder und entsprechender Konfiguration
+rdt.model.StrictSparseBatchEnsemble			=> Erstellt Bäume mit TreeBuilder und entsprechender Konfiguration
+
+evaluation.experiment.experiments.LooseSparseBatchExperiment	=> Experiment definition
+evaluation.experiment.experiments.StrictSparseBatchExperiment	=> Experiment definitio
+
+evaluation.dataset.sparse.Sparse_N20		=> Klasse zum N20 Datensatz
+evaluation.dataset.sparse.Sparse_Rcv1		=> Klasse zum Rcv1 Datensatz
+
+Änderungen an bestehenden Klassen:
+evaluation.experiment.ExperimentType  	=> Eintrag für neue Experiment Klassen hinzugefügt
+rdt.model.Model 						=> Eintrag für neue Model Klassen hinzugefügt
+evaluation.engine.ExperimentEngine 		=> Eintrag hinzugefügt um Experiment zu nutzen
+
+
+Verwendung der neuen Klassen:
+Experimente können aus der Klasse ExperimentEngine heraus gestartet werden. Die neu hinzugefügten Klassen verhalten sich in der Verwendung genauso wie das bisherige Framework. Innerhalb der Klasse ExperimentEngine ist die Verwendung innerhalb des cases "sparseBatch" des Switch-Blocks zu sehen. Dabei wird einfach ein neues Objekt der entsprechenden Experiment Klasse angelegt. Über die Run Funktion wird das entsprechende Experiment gestartet. 
+
+Die Parameter des Experiments können in der jeweiligen Experiment Klasse (LooseSparseBatchExperiment bzw. StrictSparseBatchExperiment) innerhalb der getParameters()-funktion festgelegt werden. 
